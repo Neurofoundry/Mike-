@@ -32,17 +32,70 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+
+    .main-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .llm-panel {
+      background: linear-gradient(135deg, rgba(20, 20, 25, 0.9) 0%, rgba(40, 10, 10, 0.85) 100%);
+      border: 1.5px solid rgba(220, 38, 38, 0.3);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55), 0 0 24px rgba(220, 38, 38, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .llm-panel h3 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ff6b6b;
+    }
+
+    #llm-output {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e5e5e5;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .llm-bubble {
+      background: rgba(220, 38, 38, 0.12);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.12);
+    }
+
+    .llm-bubble strong {
+      color: #fff;
+    }
+
     h1 {
-      font-size: 72px;
+      font-size: 128px;
       font-weight: 900;
-      margin-bottom: 50px;
+      margin-bottom: 24px;
       text-align: center;
       color: #ffffff;
-      letter-spacing: 8px;
+      letter-spacing: 12px;
       text-shadow: 
         0 0 30px rgba(220, 38, 38, 0.8),
         0 0 60px rgba(220, 38, 38, 0.6),
@@ -50,25 +103,61 @@
         0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
+    .video-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.2);
+    }
+
+    .video-container video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
     .subtitle {
       display: none;
     }
 
     .config-section {
-      display: none;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .config-section label {
+      color: #ff6b6b;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .config-section input {
+      background: rgba(25, 25, 30, 0.7);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      color: #f0f0f0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      min-width: 220px;
+      font-size: 13px;
     }
 
     .word-inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 14px 16px;
+      margin-bottom: 12px;
     }
 
     .word-input-wrapper {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .word-number {
@@ -109,6 +198,24 @@
       display: flex;
       gap: 12px;
       margin-bottom: 40px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(220, 38, 38, 0.12);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      color: #ff6b6b;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .status-pill.ok {
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.4);
+      background: rgba(74, 222, 128, 0.12);
     }
 
     button {
@@ -268,18 +375,28 @@
       font-style: italic;
     }
 
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
       #app-wrapper {
         padding: 40px 20px;
       }
 
       h1 {
-        font-size: 42px;
-        margin-bottom: 8px;
+        font-size: 72px;
+        letter-spacing: 6px;
       }
 
-      .subtitle {
-        margin-bottom: 35px;
+      .video-container {
+        max-width: 100%;
+        margin-bottom: 32px;
+      }
+        margin-bottom: 18px;
+        letter-spacing: 4px;
       }
 
       .button-group {
@@ -305,23 +422,42 @@
   <div id="app-wrapper">
    <div class="container">
     <h1 id="page-title">NAMEGEN</h1>
-    <div class="config-section"><label for="worker-url" id="worker-url-label">Worker URL</label> <input type="text" id="worker-url" placeholder="https://your-worker.workers.dev"> <input type="hidden" id="instruction-file" value="/path/to/instructions.md"> <input type="hidden" id="api-key" value="">
+    <div class="video-container">
+     <video autoplay loop muted playsinline>
+      <source src="/path/to/your/video.mp4" type="video/mp4">
+     </video>
     </div>
-    <div class="word-inputs">
-     <div class="word-input-wrapper"><span class="word-number">Word 1</span> <input type="text" class="word-input" id="word1" placeholder="e.g., Tech, Smart, Blue...">
+    <div class="layout">
+     <div class="main-column">
+      <div class="word-inputs">
+       <div class="word-input-wrapper"><span class="word-number">Word 1</span> <input type="text" class="word-input" id="word1" placeholder="e.g., Tech, Smart, Blue...">
+       </div>
+       <div class="word-input-wrapper"><span class="word-number">Word 2</span> <input type="text" class="word-input" id="word2" placeholder="e.g., Forge, Labs, Stream...">
+       </div>
+       <div class="word-input-wrapper"><span class="word-number">Word 3</span> <input type="text" class="word-input" id="word3" placeholder="(Optional)">
+       </div>
+       <div class="word-input-wrapper"><span class="word-number">Word 4</span> <input type="text" class="word-input" id="word4" placeholder="(Optional)">
+       </div>
+       <div class="word-input-wrapper"><span class="word-number">Word 5</span> <input type="text" class="word-input" id="word5" placeholder="(Optional)">
+       </div>
+      </div>
+      <div class="button-group">
+       <button id="generate-btn">Generate</button>
+       <button id="regenerate-btn">Regenerate</button>
+      </div>
+      <div class="config-section">
+       <label for="worker-url" id="worker-url-label">Worker URL</label>
+       <input type="text" id="worker-url" placeholder="https://your-worker.workers.dev" value="https://dpskcode1.csirico9.workers.dev/complete">
+       <label for="api-key">API Key</label>
+       <input type="text" id="api-key" placeholder="paste test key here" value="Tr1bXimgEnV1-sdbAI25">
+       <input type="hidden" id="instruction-file" value="./instructions.md">
+       <span class="status-pill" id="agent-status">Loading AGENTS.md...</span>
+      </div>
      </div>
-     <div class="word-input-wrapper"><span class="word-number">Word 2</span> <input type="text" class="word-input" id="word2" placeholder="e.g., Forge, Labs, Stream...">
+     <div class="llm-panel">
+      <h3>LLM response</h3>
+      <div id="llm-output"><span class="waiting">Waiting to call the worker...</span></div>
      </div>
-     <div class="word-input-wrapper"><span class="word-number">Word 3</span> <input type="text" class="word-input" id="word3" placeholder="(Optional)">
-     </div>
-     <div class="word-input-wrapper"><span class="word-number">Word 4</span> <input type="text" class="word-input" id="word4" placeholder="(Optional)">
-     </div>
-     <div class="word-input-wrapper"><span class="word-number">Word 5</span> <input type="text" class="word-input" id="word5" placeholder="(Optional)">
-     </div>
-    </div>
-    <div class="button-group">
-     <button id="generate-btn">Generate</button>
-     <button id="regenerate-btn">Regenerate</button>
     </div>
     <div class="results">
      <h2>Generated Names</h2>
@@ -331,207 +467,744 @@
    </div>
   </div>
   <script>
-    const defaultConfig = {
-      page_title: "Portmanteau",
-      button_text: "Generate",
-      worker_url_label: "https://echo.csirico9.workers.dev",
-      instruction_file: "/path/to/instructions.md",
-      apiKey: "Tr1bXimgEnV1-sdbAI25",
-    };
+  const defaultConfig = {
+    page_title: "NAMEGEN",
+    button_text: "Generate",
+    worker_url_label: "https://echo.csirico9.workers.dev",
+    instruction_file: "./instructions.md",
+    apiKey: "",
+  };
+  const fallbackAgentInstructions = `# NAMEGEN Demo Agent Notes
 
-    // Portmanteau generation logic
+Local instructions for the NAMEGEN demo page. Goal: fast, high-quality, pronounceable LLC names tailored to home inspection / property management consulting.
+
+## What this agent does
+- Takes 2-5 seed words and outputs candidate company names.
+- Blends three sources: (1) local portmanteau, (2) local phono-aesthetic, (3) LLM suggestions via the configured Worker.
+
+## How to run it
+- Open index.html locally; no build step required.
+- Set Worker URL to your Cloudflare Worker /complete.
+- Paste the API key if your worker enforces X-Auth-Key/Bearer.
+- Enter at least 2 words, click Generate (or press Enter).
+
+## Worker contract (expected)
+- POST /complete JSON: { prompt, temperature?, auth_key? }
+- If X-Auth-Key is required, the page sends it when the API key field is filled. Bearer works if the worker supports it.
+- Response must include content (string). If content embeds JSON like {"names":[{"name":"VoltForge","reason":"why"}]}, it will be parsed; otherwise lines are parsed as names.
+
+## What "good" names mean (guide for LLM)
+- 3-12 chars preferred (hard cap 20), easy to pronounce, passes "radio test".
+- Tone: trustworthy, competent, steady (home inspection/property management consulting). Avoid "crypto/AI/dev" vibes.
+- Tie to seeds via phonetics or concept; avoid generic dictionary-only words.
+- Avoid double words, avoid long hyphens, avoid trailing numbers.
+- Soft vetoes: hard consonant clusters (3+), obvious trademarks, geography unless asked.
+
+## Output format for LLM (strict)
+- JSON only: {"names":[{"name":"NameHere","reason":"why it works"}]}
+- 8-12 entries max.
+- Reasons: concise (4-12 words), highlight trust/safety/steadiness and seed tie-in.
+
+## LLM guardrails (phonetic + aesthetic)
+- Phonetic anchors: trusted openings (Safe, Sure, Haven, Harbor, Anchor, Shelter, Guardian, Oak, Cedar, True, Clear, Bright, Prime); flowing starts (L, R) and nasals (M, N); avoid 3+ consonant clusters. If consonants clash, bridge with a warm vowel (a/e/o).
+- Aesthetic guards: length sweet spot 5-10 chars (hard stop 20); 2-3 syllables ideal, reject 5+; balance ascenders/descenders (avoid piling g/p/y/j or only tall letters).
+- Style bans: no tech/crypto/AI jargon, no numbers, no hyphens, no "LLC/Inc" in name, no obvious trademarks, avoid geography unless provided, avoid seed duplication.
+- Suffix palette (use sparingly): -stead, -point, -line, -lane, -haven, -house, -guard, -mark, -stone, -ridge, -craft, -scope, -path, -crest.
+- Good vs bad examples: Good: Harborly, Surestead, Oakline, Nexthome, Clearpoint. Bad: AIInspect, CryptoCheck, Home-Inspect-123, NYCHomeLLC, TrustMgmtCorp, Inspectorator.
+- Scoring hints: +2 if starts with trusted sound (H/S/A/L/M/N); +1 if contains liquid (l/r) without clusters; +1 if 2-3 syllables, -2 if 5+; -2 if 3+ consonants in a row; +1 if ends with approved suffix; reject if JSON format is violated.
+
+## Local blend logic (summary)
+- Portmanteau: syllable-ish splits; pairwise + chained; filters 3-20 chars.
+- Phono-Aesthetic: overlap/liquid/bridge/snap; validates length, clusters, syllables, asc/desc balance; scores mechanical/flow/trust anchors and vowel balance; keeps top 6.
+
+## Demo tips
+- Use short, pronounceable seeds relevant to inspection/management ("Inspect", "Haven", "Anchor", "Oak", "Trust", "Dwell", "Shield") for better blends.
+- If the worker is offline, local sections still populate; LLM panel shows an error bubble.
+- Swap workers by changing the URL/key-no code changes needed.`;
+  let agentInstructions = '';
+  const agentStatus = document.getElementById('agent-status');
+
+  // Load local agent guidance to prime the prompt (if available)
+  fetch('./AGENTS.md')
+    .then(res => {
+      if (!res.ok) throw new Error(res.status);
+      return res.text();
+    })
+    .then(text => {
+      agentInstructions = text || '';
+      if (agentStatus) {
+        agentStatus.textContent = 'AGENTS.md loaded';
+        agentStatus.classList.add('ok');
+      }
+    })
+    .catch(() => {
+      agentInstructions = fallbackAgentInstructions;
+      if (agentStatus) {
+        agentStatus.textContent = 'AGENTS.md missing (using fallback)';
+        agentStatus.classList.remove('ok');
+      }
+    });
+
+    // \--- 1\. OLD SCHOOL GENERATOR (Kept as requested) \---  
     class PortmanteauGenerator {
       constructor() {
-        this.vowels = 'aeiou';
-        this.consonants = 'bcdfghjklmnprstvwxyz';
+        this.vowels = 'aeiouy'; // Added 'y'
       }
-
-      // Extract phonetically relevant syllables
       extractSyllables(word) {
         word = word.toLowerCase().trim();
         const syllables = [];
         let current = '';
-        
         for (let i = 0; i < word.length; i++) {
           const char = word[i];
           const isVowel = this.vowels.includes(char);
           const nextIsVowel = i + 1 < word.length && this.vowels.includes(word[i + 1]);
-          
           current += char;
-          
-          // Break on vowel+consonant or end of word
           if (isVowel && !nextIsVowel) {
             syllables.push(current);
             current = '';
           }
         }
-        
         if (current) syllables.push(current);
         return syllables;
       }
-
-      // Blend two words phonetically
       blend(word1, word2) {
         const syl1 = this.extractSyllables(word1);
         const syl2 = this.extractSyllables(word2);
-        
+        // Simple 50/50 chop
         const result1 = syl1.slice(0, Math.ceil(syl1.length / 2)).join('');
         const result2 = syl2.slice(Math.floor(syl2.length / 2)).join('');
-        
         return result1 + result2;
       }
-
-      // Generate multiple blends with variations
       generateBlends(words) {
         const blends = new Set();
-        
-        // Pairwise blends
         for (let i = 0; i < words.length; i++) {
-          for (let j = i + 1; j < words.length; j++) {
+          for (let j = 0; j < words.length; j++) {
+            if (i===j) continue;
             blends.add(this.blend(words[i], words[j]));
-            blends.add(this.blend(words[j], words[i]));
           }
         }
-        
-        // Forward blends (chaining)
-        if (words.length >= 2) {
-          let chain = words[0];
-          for (let i = 1; i < words.length; i++) {
-            chain = this.blend(chain, words[i]);
-          }
-          blends.add(chain);
-        }
-        
         return Array.from(blends)
           .map(b => b.charAt(0).toUpperCase() + b.slice(1))
-          .filter(b => b.length >= 3 && b.length <= 20);
+          .filter(b => b.length >= 4 && b.length <= 15);
+      }
+    }
+
+    // \--- 2\. NEW PHONO-AESTHETIC GENERATOR (Aggressive Blending) \---  
+    class PhonoAestheticGenerator {
+      constructor() {
+        this.phonetics = {
+          plosives: /[ptkbdg]/i,
+          liquids: /[lr]/i,
+          nasals: /[mn]/i,
+          vowels: /[aeiouy]/i,
+          consonants: /[bcdfghjklmnpqrstvwxz]/i,
+          hard_clusters: /[^aeiouy\s]{4,}/i
+        };
+        
+        // Morpheme extraction patterns (regex-based, better than hardcoded stems)
+        this.morphology = {
+          suffixPattern: /^(.{3,})(ing|er|est|ly|tion|sion|ment|ness|ity|ate|able|ible|ous|ive|al|ic|ism|ist|ful|less)$/i,
+          prefixPattern: /^(re|un|in|im|dis|pre|pro|con|ex|trans|sub|inter|auto|cyber|meta|hyper|ultra)(.{3,})$/i
+        };
+
+        // EXPANDED SEMANTIC CLUSTERS (The Brain)
+        this.semanticClusters = {
+          // 1. TRUST & SAFETY (The "Shield" Vibe)
+          security: [
+            'safe', 'secure', 'guard', 'shield', 'protect', 'trust', 'vault',
+            'ward', 'keep', 'lock', 'helm', 'sentry', 'fort', 'wall', 'gate',
+            'proof', 'cover', 'defend', 'aegis', 'haven', 'harbor', 'shelter',
+            'anchor', 'stable', 'firm', 'solid', 'sure', 'true', 'cert'
+          ],
+
+          // 2. TECHNOLOGY & DATA (The "Cyber" Vibe)
+          tech: [
+            'byte', 'code', 'data', 'sync', 'cloud', 'node', 'stack',
+            'cyber', 'net', 'link', 'web', 'pixel', 'bit', 'logic', 'sys',
+            'core', 'grid', 'signal', 'wire', 'circuit', 'chip', 'algo',
+            'soft', 'hard', 'mech', 'bot', 'ai', 'intel', 'smart', 'quantum'
+          ],
+
+          // 3. SPEED & MOTION (The "Fast" Vibe)
+          speed: [
+            'fast', 'quick', 'rapid', 'swift', 'velocity', 'dash', 'sprint',
+            'zoom', 'rush', 'jet', 'aero', 'bolt', 'sonic', 'mach', 'pace',
+            'zip', 'fleet', 'drift', 'glide', 'run', 'motion', 'kinetic',
+            'turbo', 'boost', 'accel', 'hyper', 'warp', 'flash', 'stride'
+          ],
+
+          // 4. CREATION & INDUSTRY (The "Builder" Vibe)
+          creation: [
+            'forge', 'craft', 'build', 'make', 'form', 'shape', 'mold',
+            'cast', 'weld', 'steel', 'iron', 'beam', 'rig', 'gear', 'cog',
+            'tool', 'factory', 'mill', 'plant', 'work', 'lab', 'mint',
+            'base', 'dock', 'struct', 'frame', 'truss', 'span', 'arch'
+          ],
+
+          // 5. FLOW & FLUIDITY (The "Smooth" Vibe)
+          flow: [
+            'stream', 'flow', 'wave', 'pulse', 'surge', 'tide', 'current',
+            'aqua', 'hydro', 'liquid', 'fluid', 'rain', 'river', 'drop',
+            'mist', 'vapor', 'pour', 'channel', 'duct', 'pipe', 'hose',
+            'spout', 'valve', 'flux', 'drift', 'ripple', 'gush', 'circ'
+          ],
+
+          // 6. ENERGY & POWER (The "Volt" Vibe - NEW)
+          energy: [
+            'volt', 'amp', 'watt', 'spark', 'fire', 'flame', 'heat',
+            'light', 'ray', 'beam', 'solar', 'atom', 'nuke', 'power',
+            'force', 'shock', 'charge', 'ignite', 'burn', 'glow', 'shine',
+            'radiant', 'lumen', 'lux', 'bright', 'flash', 'zap', 'energy'
+          ],
+
+          // 7. VISION & INTELLECT (The "Consulting" Vibe - NEW)
+          vision: [
+            'view', 'sight', 'scope', 'scan', 'focus', 'lens', 'optic',
+            'vision', 'idea', 'mind', 'brain', 'thought', 'wit', 'sage',
+            'know', 'wise', 'clear', 'look', 'watch', 'peek', 'gaz',
+            'spec', 'spect', 'scope', 'vis', 'vid', 'lume', 'clarity'
+          ],
+
+          // 8. GROWTH & NATURE (The "Organic" Vibe - NEW)
+          growth: [
+            'bio', 'eco', 'green', 'leaf', 'root', 'seed', 'tree',
+            'wood', 'earth', 'land', 'field', 'grow', 'bloom', 'rise',
+            'spring', 'life', 'vital', 'viv', 'nat', 'pure', 'fresh',
+            'soil', 'ground', 'terra', 'flora', 'evo', 'evolve', 'rise'
+          ],
+          
+          // 9. LEADERSHIP & APEX (The "Top" Vibe - NEW)
+          apex: [
+            'king', 'lord', 'lead', 'boss', 'chief', 'head', 'master',
+            'prime', 'alpha', 'apex', 'top', 'peak', 'summit', 'crown',
+            'crest', 'pinnacle', 'zenith', 'acme', 'vertex', 'elite',
+            'pro', 'max', 'ultra', 'mega', 'giga', 'tera', 'star'
+          ]
+        };
+      }
+
+      analyzeWord(word) {
+        if (!word) return { val: '', root: '' };
+        const val = word.toLowerCase();
+        
+        // Extract morpheme root via regex
+        let root = val;
+        let prefix = '';
+        let suffix = '';
+
+        const suffixMatch = val.match(this.morphology.suffixPattern);
+        if (suffixMatch && suffixMatch[1].length >= 3) {
+          root = suffixMatch[1];
+          suffix = suffixMatch[2];
+        }
+
+        const prefixMatch = root.match(this.morphology.prefixPattern);
+        if (prefixMatch && prefixMatch[2].length >= 3) {
+          prefix = prefixMatch[1];
+          root = prefixMatch[2];
+        }
+
+        return {
+          val: val,
+          root: root,
+          prefix: prefix,
+          suffix: suffix,
+          len: word.length,
+          hasVowel: this.phonetics.vowels.test(word),
+          firstVowelIdx: val.search(this.phonetics.vowels),
+          lastVowelIdx: val.lastIndexOf(val.match(this.phonetics.vowels)?.[0] || ''),
+          isMechanical: this.phonetics.plosives.test(word[0]),
+          isFlowing: this.phonetics.liquids.test(word[0]) || this.phonetics.nasals.test(word[0]),
+          semanticGroup: this.getSemanticGroup(root)
+        };
+      }
+
+      getSemanticGroup(word) {
+        for (const [group, words] of Object.entries(this.semanticClusters)) {
+          if (words.some(w => word.includes(w) || w.includes(word))) {
+            return group;
+          }
+        }
+        return null;
+      }
+
+      // Helper: Find which cluster a word belongs to (or feels like)
+      getCluster(word) {
+        word = word.toLowerCase();
+        for (const [category, words] of Object.entries(this.semanticClusters)) {
+            // Direct match?
+            if (words.includes(word)) return category;
+            // Partial match? (e.g. "security" input matches "secure" list)
+            if (words.some(w => word.includes(w) || w.includes(word))) return category;
+        }
+        return 'general'; // Fallback
+      }
+
+      // Helper: Get a random "Synonym" from the same cluster to spice things up
+      getSynonym(word) {
+        const cluster = this.getCluster(word);
+        if (cluster === 'general') return word;
+        
+        const possible = this.semanticClusters[cluster];
+        // Return a random word from that list that ISN'T the input word
+        const filtered = possible.filter(w => w !== word.toLowerCase());
+        return filtered[Math.floor(Math.random() * filtered.length)] || word;
+      }
+
+      // Find shared phoneme clusters (2-4 chars) between word endings and beginnings
+      findPhonemeCluster(wordA, wordB) {
+        // Try longer clusters first (stronger bridges)
+        for (let len = 4; len >= 2; len--) {
+          // Check end of A against middle/start of B
+          for (let i = Math.max(0, wordA.length - len); i < wordA.length; i++) {
+            const cluster = wordA.substring(i, Math.min(i + len, wordA.length));
+            if (cluster.length < 2) continue;
+            
+            const idx = wordB.indexOf(cluster);
+            if (idx >= 0 && idx < wordB.length - 1) {
+              return { cluster, posA: i, posB: idx, len: cluster.length };
+            }
+          }
+        }
+        return null;
+      }
+
+      blend(w1, w2) {
+        const a = this.analyzeWord(w1);
+        const b = this.analyzeWord(w2);
+        if (!a.val || !b.val) return [];
+
+        let results = [];
+        
+        // Semantic affinity bonus (do they belong together conceptually?)
+        const semanticFit = (a.semanticGroup && b.semanticGroup && a.semanticGroup === b.semanticGroup) ? 10 : 0;
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // TIER 1: PREMIUM STRATEGIES (Securate-class blends)
+        // ═══════════════════════════════════════════════════════════════════════
+
+        // 1A. Phoneme Bridge on ROOTS (Best: finds "cure" in Secure+Curate)
+        const rootBridge = this.findPhonemeCluster(a.root, b.root);
+        if (rootBridge && rootBridge.len >= 3) {
+          const blended = a.root.substring(0, rootBridge.posA) + b.root.substring(rootBridge.posB);
+          if (blended.length >= 5 && blended.length <= 12) {
+            results.push({ 
+              name: blended, 
+              type: 'Phoneme Bridge',
+              strength: 20 + rootBridge.len + semanticFit
+            });
+          }
+        }
+
+        // 1B. Root Fusion with Overlap (finds "sec" overlap in Security+Sector)
+        if (a.root.length >= 3 && b.root.length >= 3) {
+          for (let overlap = 3; overlap >= 2; overlap--) {
+            if (a.root.slice(-overlap) === b.root.slice(0, overlap)) {
+              const fused = a.root + b.root.slice(overlap);
+              results.push({
+                name: fused,
+                type: 'Root Fusion',
+                strength: 15 + overlap + semanticFit
+              });
+              break;
+            }
+          }
+        }
+
+        // 1C. Atomic Bond (Safe+Guard, short roots that fit together)
+        if (a.root.length >= 3 && b.root.length >= 3 && (a.root.length + b.root.length) <= 11) {
+          results.push({
+            name: a.root + b.root,
+            type: 'Atomic Bond',
+            strength: 12 + semanticFit
+          });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // TIER 2: CREATIVE STRATEGIES (Inventive but valid)
+        // ═══════════════════════════════════════════════════════════════════════
+
+        // 2A. Vowel Elision (smooth junction by dropping vowel clash)
+        if (a.root.length > 2 && b.root.length > 2) {
+          const lastIsVowel = /[aeiouy]/i.test(a.root.slice(-1));
+          const firstIsVowel = /[aeiouy]/i.test(b.root.charAt(0));
+          if (lastIsVowel && firstIsVowel) {
+            results.push({ 
+              name: a.root.slice(0, -1) + b.root, 
+              type: 'Vowel Elision',
+              strength: 10
+            });
+          }
+          if (lastIsVowel && !firstIsVowel && a.root.length > 3) {
+            results.push({ 
+              name: a.root.slice(0, -1) + b.root, 
+              type: 'Smooth Cut',
+              strength: 9
+            });
+          }
+        }
+
+        // 2B. Liquid Bridge (natural flow via L/R/M/N endings)
+        const lastChar = a.root.slice(-1);
+        if (/[lrmn]/i.test(lastChar) && b.root.length >= 3) {
+          results.push({ 
+            name: a.root + b.root, 
+            type: 'Liquid Flow',
+            strength: 9 + semanticFit
+          });
+        }
+
+        // 2C. Suffix Graft (take A's root, add B's suffix if meaningful)
+        if (b.suffix && b.suffix.length >= 2 && a.root.length >= 4) {
+          // Only graft if it makes phonetic sense (no triple consonants)
+          const grafted = a.root + b.suffix;
+          if (!this.phonetics.hard_clusters.test(grafted)) {
+            results.push({
+              name: grafted,
+              type: 'Suffix Graft',
+              strength: 8
+            });
+          }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // TIER 3: FALLBACK STRATEGIES (Classic techniques)
+        // ═══════════════════════════════════════════════════════════════════════
+
+        // 3A. Character Overlap on full words (Travelocity pattern)
+        if (a.val.slice(-2) === b.val.slice(0, 2)) {
+          results.push({ name: a.val + b.val.slice(2), type: 'Deep Overlap', strength: 7 });
+        } else if (a.val.slice(-1) === b.val.charAt(0)) {
+          results.push({ name: a.val + b.val.slice(1), type: 'Overlap', strength: 6 });
+        }
+
+        // 3B. Prefix Swap (use A's prefix with B's root)
+        if (a.prefix && b.root.length >= 4) {
+          results.push({
+            name: a.prefix + b.root,
+            type: 'Prefix Swap',
+            strength: 6
+          });
+        }
+
+        return results;
+      }
+
+      validate(name) {
+        if (!name) return false;
+        if (name.length < 4 || name.length > 20) return false;
+        if (this.phonetics.hard_clusters.test(name)) return false;
+        if (!this.phonetics.vowels.test(name)) return false;
+        if (/(.)\\1\\1/.test(name)) return false;
+        
+        // Reject if too many consecutive consonants at blend junction
+        if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(name)) return false;
+        
+        return true;
+      }
+
+      scoreName(name, strategy, strength) {
+        let score = strength || 10; // Start with strategy strength
+        
+        // Length optimization: 6-10 chars is premium brand territory
+        if (name.length >= 6 && name.length <= 10) score += 8;
+        else if (name.length >= 5 && name.length <= 12) score += 4;
+        else if (name.length > 14) score -= 3;
+
+        // Phonetic aesthetics
+        if (/^[ptkbdg]/i.test(name)) score += 3; // Strong starts
+        if (/^[smnl]/i.test(name)) score += 2;  // Smooth starts
+        
+        // Vowel-consonant rhythm (smooth alternation = pronounceable)
+        let transitions = 0;
+        for (let i = 0; i < name.length - 1; i++) {
+          const currVowel = /[aeiouy]/i.test(name[i]);
+          const nextVowel = /[aeiouy]/i.test(name[i + 1]);
+          if (currVowel !== nextVowel) transitions++;
+        }
+        const rhythmScore = Math.floor((transitions / name.length) * 10);
+        score += Math.min(rhythmScore, 5);
+
+        // Penalize consonant-heavy names (hard to pronounce)
+        const consonants = name.replace(/[aeiouy]/gi, '').length;
+        const consonantRatio = consonants / name.length;
+        if (consonantRatio > 0.75) score -= 4;
+        else if (consonantRatio > 0.65) score -= 2;
+
+        // Reward ending in strong sounds
+        if (/[xtk]$/i.test(name)) score += 2; // Tech-y endings
+        if (/[aey]$/i.test(name)) score += 1;  // Soft endings
+
+        return Math.max(score, 0);
+      }
+
+      // Determine which word should be the anchor (base) vs modifier
+      getWordWeight(word) {
+        const analysis = this.analyzeWord(word);
+        let weight = 0;
+        
+        // Longer roots = better anchors
+        weight += analysis.root.length * 2;
+        
+        // Words in semantic clusters = strong anchors
+        if (analysis.semanticGroup) weight += 5;
+        
+        // Words with prefixes = complex, good anchors
+        if (analysis.prefix) weight += 3;
+        
+        // Words ending in strong consonants = good anchors
+        if (/[tkxr]$/i.test(analysis.root)) weight += 2;
+        
+        return weight;
+      }
+
+      generateBlends(words) {
+        const rawBlends = [];
+        
+        // Smart ordering: heavier words anchor, lighter words modify
+        const weighted = words.map(w => ({ word: w, weight: this.getWordWeight(w) }))
+                              .sort((a, b) => b.weight - a.weight);
+        
+        for (let i = 0; i < weighted.length; i++) {
+          for (let j = 0; j < weighted.length; j++) {
+            if (i === j) continue;
+            
+            const w1 = weighted[i].word;
+            const w2 = weighted[j].word;
+            const blends = this.blend(w1, w2);
+            
+            // Bonus if natural order (heavier first)
+            const orderBonus = (i < j) ? 2 : 0;
+            blends.forEach(b => {
+              b.strength = (b.strength || 10) + orderBonus;
+              rawBlends.push(b);
+            });
+          }
+        }
+
+        const unique = new Map();
+        rawBlends.forEach(item => {
+          if (!unique.has(item.name)) unique.set(item.name, item);
+        });
+
+        return Array.from(unique.values())
+          .filter(item => this.validate(item.name))
+          .map(item => ({
+            ...item,
+            name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
+            score: this.scoreName(item.name, item.type, item.strength)
+          }))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 18); // Return top 18 for better exploration
       }
     }
 
     const generator = new PortmanteauGenerator();
+    const phonoGenerator = new PhonoAestheticGenerator();
     let lastWords = [];
 
     async function generateNames(words) {
       const workerUrl = document.getElementById('worker-url').value.trim();
       const resultsContent = document.getElementById('results-content');
+      const llmOutput = document.getElementById('llm-output');
       const generateBtn = document.getElementById('generate-btn');
       const regenerateBtn = document.getElementById('regenerate-btn');
       
-      if (words.length < 2) {
-        resultsContent.innerHTML = '<span class="error">Error: Please enter at least 2 words</span>';
+      // Smart phrase expansion: split multi-word inputs into individual words
+      const expandedWords = [];
+      words.forEach(input => {
+        const tokens = input.split(/[\s\-_]+/).filter(w => w.length >= 3);
+        if (tokens.length > 1) {
+          // Phrase detected: add both the phrase components AND meaningful pairs
+          tokens.forEach(t => expandedWords.push(t));
+        } else {
+          expandedWords.push(input);
+        }
+      });
+      
+      // Deduplicate
+      const uniqueWords = [...new Set(expandedWords)];
+        
+      if (uniqueWords.length < 2) {
+        resultsContent.innerHTML = '<span class="error">Error: Please enter at least 2 words (or phrases)</span>';
         return;
       }
 
       generateBtn.disabled = true;
       resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div> Generating names...</div>';
-      
-      try {
-        // First, get local portmanteau blends
-        const localBlends = generator.generateBlends(words);
-        lastWords = words;
         
+      try {
+        // 1. Run Local Generators
+        const localBlends = generator.generateBlends(uniqueWords);
+        const phonoResults = phonoGenerator.generateBlends(uniqueWords);
+          
+        lastWords = words; // Store original input for regenerate
+          
+        // Update UI immediately with local results while LLM thinks
+        displayNames(localBlends, phonoResults, null);
+
+        // 2. Worker / LLM Logic
         if (!workerUrl) {
-          displayNames(localBlends, null);
-          regenerateBtn.style.display = 'flex';
-          generateBtn.disabled = false;
-          return;
+            llmOutput.innerHTML = '<div class="llm-bubble"><strong>Offline Mode</strong><div style="margin-top:4px;color:#ccc;">Worker URL missing. Showing local algorithms only.</div></div>';
+            regenerateBtn.style.display = 'flex';
+            generateBtn.disabled = false;
+            return;
         }
 
-        // Then enhance with LLM
         const apiKeyInput = document.getElementById('api-key');
         const apiKey = apiKeyInput.value || '';
+          
+        // Prompt Engineering (use expanded words for context)
+        const context = agentInstructions ? `Context:\n${agentInstructions}\n\n` : '';
+        const prompt = `${context}Generate 8-12 premium brand names blending: ${uniqueWords.join(', ')}.
         
-        const prompt = `Create 8-12 creative LLC business names by blending these words: ${words.join(', ')}. 
-Requirements:
-- Names should sound professional and memorable
-- Mix phonetically pleasing portmanteaus with creative alternatives
-- Each name should be 3-20 characters
-- Focus on names that could work for a tech/software company
-- Include brief descriptions (1-2 words each)
-
-Format as JSON:
-{"names": [{"name": "NameHere", "reason": "why it works"}]}`;
-
-        const headers = {
-          'Content-Type': 'application/json'
-        };
+Analyze what makes strong brand names from these concepts. Consider:
+        - Phonetic flow and pronounceability
+        - Semantic coherence (do the meanings align?)
+        - Memorability and visual aesthetics
+        - Industry perception and trust signals
         
-        if (apiKey) {
-          headers['Authorization'] = `Bearer ${apiKey}`;
-          headers['x-auth-key'] = apiKey;
-        }
+        Also suggest 3-5 alternative words that align with these concepts but weren't in the input.
+        Only suggest words that would blend well and expand the creative space.
+        
+        Output strictly JSON: {
+          "names": [{"name":"X","reason":"brief reason"}],
+          "analysis": "2-3 sentences explaining what makes these names work well - phonetic patterns, semantic strengths, which combinations feel most premium/trustworthy",
+          "suggestions": ["word1", "word2", "word3"]
+        }`;
 
-        const payload = {
-          model: '@hf/nousresearch/hermes-2-pro-mistral-7b',
-          prompt,
-          max_tokens: 512,
-          temperature: 0.8
-        };
-
-        const response = await fetch(`${workerUrl}/v1/completions`, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(payload)
+        const payload = { prompt, temperature: 0.8, auth_key: apiKey };
+        const endpoint = workerUrl.endsWith('/complete') ? workerUrl : `${workerUrl.replace(/\/$/, '')}/complete`;
+          
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Auth-Key': apiKey },
+            body: JSON.stringify(payload)
         });
-        
-        if (!response.ok) {
-          displayNames(localBlends, null);
-          regenerateBtn.style.display = 'flex';
-          generateBtn.disabled = false;
-          return;
-        }
-        
-        const data = await response.json().catch(() => ({ choices: [{ text: '{}' }] }));
-        
+          
+        if (!response.ok) throw new Error(`Worker returned ${response.status}`);
+          
+        const data = await response.json();
         let llmNames = [];
-        let responseText = data.choices?.[0]?.text || '';
-        
+          
+        // Attempt parsing
+        let llmAnalysis = '';
+        let llmSuggestions = [];
         try {
-          const jsonMatch = responseText.match(/\{[\s\S]*"names"[\s\S]*\}/);
-          if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            llmNames = parsed.names || [];
-          }
-        } catch (e) {
-          console.warn('Could not parse LLM response as JSON');
+           const content = data.content || JSON.stringify(data);
+           const match = content.match(/\{[\s\S]*"names"[\s\S]*\}/);
+           if (match) {
+             const parsed = JSON.parse(match[0]);
+             llmNames = parsed.names || [];
+             llmAnalysis = parsed.analysis || '';
+             llmSuggestions = parsed.suggestions || [];
+           }
+        } catch(e) { console.log("JSON Parse fail", e); }
+
+        // Refresh display with ALL data
+        displayNames(localBlends, phonoResults, llmNames);
+          
+        // Update LLM Bubble with Analysis
+        if(llmNames.length || llmAnalysis || llmSuggestions.length) {
+            let html = '';
+            
+            // Show analysis/breakdown first if available
+            if (llmAnalysis) {
+              html += `<div class="llm-bubble" style="background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(78,222,128,0.1)); border-left: 3px solid #4ade80; margin-bottom: 12px;">
+                <strong style="color:#4ade80;">💡 Analysis</strong>
+                <div style="margin-top:8px;color:#ddd;line-height:1.6;font-size:13px;">${llmAnalysis}</div>
+              </div>`;
+            }
+            
+            // Then show top picks
+            if (llmNames.length) {
+              html += '<div style="margin-top:8px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Picks</div>';
+              html += llmNames.slice(0,5).map(n =>
+                `<div class="llm-bubble" style="margin-top:8px;">
+                  <strong>${n.name}</strong><br>
+                  <span style="color:#aaa;font-size:12px;">${n.reason}</span>
+                </div>`
+              ).join('');
+            }
+            
+            // Filter suggestions: exclude words already in input or results
+            if (llmSuggestions.length) {
+              const allGeneratedNames = [...phonoResults.map(r => r.name.toLowerCase()), ...llmNames.map(n => n.name.toLowerCase()), ...localBlends.map(b => b.toLowerCase())];
+              const inputWordsLower = uniqueWords.map(w => w.toLowerCase());
+              
+              const freshSuggestions = llmSuggestions.filter(s => {
+                const lower = s.toLowerCase();
+                // Exclude if in input
+                if (inputWordsLower.includes(lower)) return false;
+                // Exclude if any result contains it
+                if (allGeneratedNames.some(name => name.includes(lower) || lower.includes(name))) return false;
+                return true;
+              });
+              
+              if (freshSuggestions.length) {
+                html += `<div class="llm-bubble" style="margin-top:16px;background: linear-gradient(135deg, rgba(255,163,77,0.1), rgba(255,107,107,0.1)); border-left: 3px solid #ffa34d;">
+                  <strong style="color:#ffa34d;">🔮 Try These Too</strong>
+                  <div style="margin-top:8px;color:#ccc;font-size:12px;">Alternative words that align with your concepts:</div>
+                  <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+                    ${freshSuggestions.map(word => 
+                      `<span style="background:rgba(255,163,77,0.15);padding:4px 10px;border-radius:4px;font-size:12px;color:#ffa34d;border:1px solid rgba(255,163,77,0.3);">${word}</span>`
+                    ).join('')}
+                  </div>
+                </div>`;
+              }
+            }
+            
+            llmOutput.innerHTML = html;
         }
-        
-        displayNames(localBlends, llmNames);
+          
         regenerateBtn.style.display = 'flex';
+
       } catch (error) {
-        resultsContent.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+        console.error(error);
+        llmOutput.innerHTML = `<div class="llm-bubble"><strong>Error</strong><br>${error.message}</div>`;
       } finally {
         generateBtn.disabled = false;
       }
     }
 
-    function displayNames(localNames, llmNames) {
+    function displayNames(localNames, phonoResults, llmNames) {
       const resultsContent = document.getElementById('results-content');
       let html = '';
-      
-      if (localNames && localNames.length > 0) {
-        html += '<h3 style="color: #c4b5fd; margin-bottom: 16px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Portmanteau Blends</h3>';
-        localNames.slice(0, 6).forEach(name => {
+        
+      // 1. Phono-Aesthetic (The Smart Algo) - NOW FIRST
+      if (phonoResults && phonoResults.length > 0) {
+        html += '<h3 style="color: #ff6b6b; margin: 0 0 16px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Scientific Blends</h3>';
+        phonoResults.forEach(item => {
           html += `<div class="name-item">
-            <div class="name-item-title">${name}</div>
-            <div class="name-item-desc">Local blend</div>
+            <div class="name-item-title">${item.name}</div>
+            <div class="name-item-desc" style="color:#4ade80;">${item.type}</div>
           </div>`;
         });
       }
-      
+
+      // 2. AI Suggestions
       if (llmNames && llmNames.length > 0) {
-        html += '<h3 style="color: #c4b5fd; margin: 24px 0 16px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">AI Suggestions</h3>';
-        llmNames.slice(0, 8).forEach(item => {
-          const name = item.name || item;
-          const reason = item.reason || '';
-          html += `<div class="name-item">
+        html += '<h3 style="color: #ff6b6b; margin: 24px 0 16px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">AI Suggestions</h3>';
+        llmNames.forEach(item => {
+            html += `<div class="name-item">
+            <div class="name-item-title">${item.name}</div>
+            <div class="name-item-desc">${item.reason}</div>
+            </div>`;
+        });
+      }
+
+      // 3. Simple Portmanteaus (The "Dumb" Algo) - MOVED TO BOTTOM
+      if (localNames && localNames.length > 0) {
+        html += '<h3 style="color: #ff6b6b; margin: 24px 0 16px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Standard Blends</h3>';
+        localNames.slice(0, 6).forEach(name => {
+          html += `<div class="name-item" style="opacity:0.8">
             <div class="name-item-title">${name}</div>
-            <div class="name-item-desc">${reason}</div>
+            <div class="name-item-desc">Simple Mix</div>
           </div>`;
         });
       }
-      
-      resultsContent.innerHTML = html || '<span class="waiting">No names generated</span>';
+        
+      resultsContent.innerHTML = html || '<span class="waiting">No valid names generated. Try different words.</span>';
     }
 
     // Event listeners
@@ -559,6 +1232,7 @@ Format as JSON:
         }
       });
     });
+
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0324c7002daed',t:'MTc2Nzc1NDczOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
