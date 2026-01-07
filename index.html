@@ -6,184 +6,231 @@
   <title>LLC Name Generator</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    body {
-      box-sizing: border-box;
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html, body, #app-wrapper {
+    html, body {
       height: 100%;
       width: 100%;
     }
 
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0f0505 100%);
+      color: #f0f0f0;
+      font-family: 'Inter', '-apple-system', 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+
     #app-wrapper {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a0505 100%);
-      color: #ff6b6b;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      overflow-auto;
-      padding: 40px 20px;
+      min-height: 100vh;
+      padding: 60px 20px;
+      background: radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.05) 0%, transparent 50%);
     }
 
     .container {
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 72px;
+      font-weight: 900;
       margin-bottom: 50px;
       text-align: center;
-      font-weight: 700;
-      letter-spacing: 4px;
-      color: #ff8585;
-      text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+      color: #ffffff;
+      letter-spacing: 8px;
+      text-shadow: 
+        0 0 30px rgba(220, 38, 38, 0.8),
+        0 0 60px rgba(220, 38, 38, 0.6),
+        0 0 90px rgba(220, 38, 38, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .subtitle {
+      display: none;
     }
 
     .config-section {
-      margin-bottom: 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 107, 107, 0.15);
-    }
-
-    .config-section label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 8px;
-      color: #ff9999;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 500;
-    }
-
-    .config-section input:not([type="hidden"]) {
-      width: 100%;
-      background: rgba(10, 10, 10, 0.6);
-      color: #ffb3b3;
-      border: 1px solid rgba(255, 107, 107, 0.3);
-      padding: 12px 16px;
-      font-size: 14px;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .config-section input:focus {
-      outline: none;
-      border-color: rgba(255, 107, 107, 0.6);
-      box-shadow: 0 0 20px rgba(255, 107, 107, 0.15);
-      background: rgba(20, 5, 5, 0.8);
+      display: none;
     }
 
     .word-inputs {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 35px;
+      gap: 14px;
+      margin-bottom: 32px;
     }
 
     .word-input-wrapper {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
     .word-number {
-      font-size: 20px;
-      font-weight: 600;
-      min-width: 30px;
-      color: #ff9999;
-      opacity: 0.7;
+      font-size: 13px;
+      font-weight: 700;
+      min-width: 20px;
+      color: #dc2626;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .word-input {
       flex: 1;
-      background: rgba(10, 10, 10, 0.6);
-      color: #ffb3b3;
-      border: 1px solid rgba(255, 107, 107, 0.3);
-      padding: 16px 20px;
-      font-size: 16px;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      border-radius: 16px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      background: rgba(25, 25, 30, 0.7);
+      color: #f0f0f0;
+      border: 1.5px solid rgba(220, 38, 38, 0.25);
+      padding: 14px 18px;
+      font-size: 15px;
+      font-family: inherit;
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .word-input::placeholder {
+      color: rgba(220, 38, 38, 0.3);
     }
 
     .word-input:focus {
       outline: none;
-      border-color: rgba(255, 107, 107, 0.6);
-      box-shadow: 0 0 25px rgba(255, 107, 107, 0.15);
-      background: rgba(20, 5, 5, 0.8);
+      border-color: rgba(220, 38, 38, 0.6);
+      background: rgba(25, 25, 35, 0.95);
+      box-shadow: 0 0 24px rgba(220, 38, 38, 0.25);
     }
 
-    .word-input::placeholder {
-      color: rgba(255, 107, 107, 0.3);
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
     }
 
     button {
-      width: 100%;
-      background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+      flex: 1;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
       color: #ffffff;
-      border: none;
-      padding: 18px 24px;
-      font-size: 16px;
+      border: 2px solid rgba(220, 38, 38, 0.5);
+      padding: 16px 24px;
+      font-size: 15px;
       font-weight: 600;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      border-radius: 16px;
+      font-family: inherit;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 35px;
-      box-shadow: 0 4px 20px rgba(255, 107, 107, 0.25);
+      letter-spacing: 1px;
+      box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+      position: relative;
+      overflow: hidden;
     }
 
-    button:hover {
-      background: linear-gradient(135deg, #ff5252 0%, #ff3d3d 100%);
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button:hover:not(:disabled) {
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
       transform: translateY(-2px);
-      box-shadow: 0 6px 30px rgba(255, 107, 107, 0.35);
+      box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+      border-color: rgba(220, 38, 38, 0.8);
     }
 
-    button:active {
+    button:hover:not(:disabled)::before {
+      left: 100%;
+    }
+
+    button:active:not(:disabled) {
       transform: translateY(0);
     }
 
     button:disabled {
-      background: linear-gradient(135deg, #664444 0%, #553333 100%);
+      background: rgba(220, 38, 38, 0.3);
       cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
+      opacity: 0.6;
+    }
+
+    #regenerate-btn {
+      background: linear-gradient(135deg, #7f1d1d 0%, #4c0519 100%);
+      border: 2px solid rgba(220, 38, 38, 0.4);
+      color: #ff6b6b;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      display: none;
+    }
+
+    #regenerate-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+      box-shadow: 0 8px 30px rgba(220, 38, 38, 0.3);
+      border-color: rgba(220, 38, 38, 0.7);
+      color: #ff8888;
     }
 
     .results {
-      background: rgba(10, 10, 10, 0.6);
-      border: 1px solid rgba(255, 107, 107, 0.3);
-      border-radius: 20px;
-      padding: 28px;
-      min-height: 150px;
-      backdrop-filter: blur(10px);
+      background: rgba(20, 20, 25, 0.7);
+      border: 1.5px solid rgba(220, 38, 38, 0.25);
+      border-radius: 18px;
+      padding: 32px;
+      min-height: 200px;
+      backdrop-filter: blur(12px);
     }
 
     .results h2 {
-      font-size: 18px;
-      margin-bottom: 18px;
-      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 20px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ff9999;
+      letter-spacing: 2px;
+      color: #ff6b6b;
     }
 
     .results-content {
       font-size: 15px;
-      line-height: 1.8;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: #ffb3b3;
+      line-height: 1.7;
+      color: #f0f0f0;
+    }
+
+    .name-item {
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      border-left: 4px solid #dc2626;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .name-item:hover {
+      border-color: rgba(220, 38, 38, 0.5);
+      border-left-color: #ff4444;
+      background: rgba(220, 38, 38, 0.15);
+      transform: translateX(6px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.1);
+    }
+
+    .name-item-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .name-item-desc {
+      font-size: 13px;
+      color: #999;
+      line-height: 1.5;
     }
 
     .loading {
@@ -191,16 +238,17 @@
       align-items: center;
       gap: 12px;
       font-size: 15px;
-      color: #ff9999;
+      color: #dc2626;
     }
 
     .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255, 107, 107, 0.2);
-      border-top-color: #ff8585;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(220, 38, 38, 0.2);
+      border-top-color: #dc2626;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
+      box-shadow: 0 0 8px rgba(220, 38, 38, 0.3);
     }
 
     @keyframes spin {
@@ -208,37 +256,44 @@
     }
 
     .error {
-      color: #ffaaaa;
+      color: #ff8888;
+      padding: 12px;
+      background: rgba(220, 38, 38, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(220, 38, 38, 0.2);
     }
 
     .waiting {
-      color: rgba(255, 107, 107, 0.5);
+      color: rgba(220, 38, 38, 0.5);
       font-style: italic;
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 36px;
-        margin-bottom: 30px;
+      #app-wrapper {
+        padding: 40px 20px;
       }
 
-      .word-input-wrapper {
+      h1 {
+        font-size: 42px;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        margin-bottom: 35px;
+      }
+
+      .button-group {
+        flex-direction: column;
         gap: 10px;
       }
 
-      .word-number {
-        font-size: 20px;
-        min-width: 25px;
-      }
-
       .word-input {
-        padding: 14px 16px;
-        font-size: 16px;
+        padding: 12px 16px;
+        font-size: 14px;
       }
 
       button {
-        padding: 16px 20px;
-        font-size: 18px;
+        padding: 14px 20px;
       }
     }
   </style>
@@ -249,231 +304,169 @@
  <body>
   <div id="app-wrapper">
    <div class="container">
-    <h1 id="page-title">LLC NAMEGEN:</h1>
+    <h1 id="page-title">NAMEGEN</h1>
     <div class="config-section"><label for="worker-url" id="worker-url-label">Worker URL</label> <input type="text" id="worker-url" placeholder="https://your-worker.workers.dev"> <input type="hidden" id="instruction-file" value="/path/to/instructions.md"> <input type="hidden" id="api-key" value="">
     </div>
     <div class="word-inputs">
-     <div class="word-input-wrapper"><span class="word-number">1.</span> <input type="text" class="word-input" id="word1" placeholder="Enter first word...">
+     <div class="word-input-wrapper"><span class="word-number">Word 1</span> <input type="text" class="word-input" id="word1" placeholder="e.g., Tech, Smart, Blue...">
      </div>
-     <div class="word-input-wrapper"><span class="word-number">2.</span> <input type="text" class="word-input" id="word2" placeholder="Enter second word...">
+     <div class="word-input-wrapper"><span class="word-number">Word 2</span> <input type="text" class="word-input" id="word2" placeholder="e.g., Forge, Labs, Stream...">
      </div>
-     <div class="word-input-wrapper"><span class="word-number">3.</span> <input type="text" class="word-input" id="word3" placeholder="Enter third word...">
+     <div class="word-input-wrapper"><span class="word-number">Word 3</span> <input type="text" class="word-input" id="word3" placeholder="(Optional)">
      </div>
-     <div class="word-input-wrapper"><span class="word-number">4.</span> <input type="text" class="word-input" id="word4" placeholder="Enter fourth word...">
+     <div class="word-input-wrapper"><span class="word-number">Word 4</span> <input type="text" class="word-input" id="word4" placeholder="(Optional)">
      </div>
-     <div class="word-input-wrapper"><span class="word-number">5.</span> <input type="text" class="word-input" id="word5" placeholder="Enter fifth word...">
+     <div class="word-input-wrapper"><span class="word-number">Word 5</span> <input type="text" class="word-input" id="word5" placeholder="(Optional)">
      </div>
-    </div><button id="generate-btn">Generate Name</button>
+    </div>
+    <div class="button-group">
+     <button id="generate-btn">Generate</button>
+     <button id="regenerate-btn">Regenerate</button>
+    </div>
     <div class="results">
      <h2>Generated Names</h2>
-     <div id="results-content" class="results-content"><span class="waiting">Enter words and click generate...</span>
+     <div id="results-content" class="results-content"><span class="waiting">Enter 2+ words and click Generate...</span>
      </div>
     </div>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      page_title: "LLC NAMEGEN:",
-      button_text: "Generate Name",
+      page_title: "Portmanteau",
+      button_text: "Generate",
       worker_url_label: "https://echo.csirico9.workers.dev",
       instruction_file: "/path/to/instructions.md",
       apiKey: "Tr1bXimgEnV1-sdbAI25",
-      background_color: "#0a0a0a",
-      text_color: "#ff6b6b",
-      input_bg: "rgba(10, 10, 10, 0.6)",
-      button_bg: "#ff6b6b",
-      button_text_color: "#ffffff"
     };
 
-    async function onConfigChange(config) {
-      const pageTitle = document.getElementById('page-title');
-      const generateBtn = document.getElementById('generate-btn');
-      const workerUrlLabel = document.getElementById('worker-url-label');
-      const instructionFileInput = document.getElementById('instruction-file');
-      
-      pageTitle.textContent = config.page_title || defaultConfig.page_title;
-      generateBtn.textContent = config.button_text || defaultConfig.button_text;
-      workerUrlLabel.textContent = config.worker_url_label || defaultConfig.worker_url_label;
-      instructionFileInput.value = config.instruction_file || defaultConfig.instruction_file;
-      
-      const apiKeyInput = document.getElementById('api-key');
-      apiKeyInput.value = config.api_key || defaultConfig.api_key;
-      
-      const wrapper = document.getElementById('app-wrapper');
-      const bgColor = config.background_color || defaultConfig.background_color;
-      wrapper.style.background = `linear-gradient(135deg, ${bgColor} 0%, #1a0505 100%)`;
-      
-      const textColor = config.text_color || defaultConfig.text_color;
-      document.querySelectorAll('.word-number, .results h2, .config-section label').forEach(el => {
-        el.style.color = textColor;
-      });
-      
-      const inputs = document.querySelectorAll('.word-input, .config-section input:not([type="hidden"])');
-      inputs.forEach(input => {
-        input.style.background = config.input_bg || defaultConfig.input_bg;
-        input.style.color = textColor;
-        input.style.borderColor = `rgba(255, 107, 107, 0.3)`;
-      });
+    // Portmanteau generation logic
+    class PortmanteauGenerator {
+      constructor() {
+        this.vowels = 'aeiou';
+        this.consonants = 'bcdfghjklmnprstvwxyz';
+      }
 
-      const results = document.querySelector('.results');
-      results.style.background = config.input_bg || defaultConfig.input_bg;
-      results.style.borderColor = `rgba(255, 107, 107, 0.3)`;
-      
-      const buttonBg = config.button_bg || defaultConfig.button_bg;
-      generateBtn.style.background = `linear-gradient(135deg, ${buttonBg} 0%, #ff5252 100%)`;
-      generateBtn.style.color = config.button_text_color || defaultConfig.button_text_color;
-    }
-
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [
-          {
-            get: () => config.background_color || defaultConfig.background_color,
-            set: (value) => {
-              config.background_color = value;
-              window.elementSdk.setConfig({ background_color: value });
-            }
-          },
-          {
-            get: () => config.text_color || defaultConfig.text_color,
-            set: (value) => {
-              config.text_color = value;
-              window.elementSdk.setConfig({ text_color: value });
-            }
-          },
-          {
-            get: () => config.input_bg || defaultConfig.input_bg,
-            set: (value) => {
-              config.input_bg = value;
-              window.elementSdk.setConfig({ input_bg: value });
-            }
-          },
-          {
-            get: () => config.button_bg || defaultConfig.button_bg,
-            set: (value) => {
-              config.button_bg = value;
-              window.elementSdk.setConfig({ button_bg: value });
-            }
-          },
-          {
-            get: () => config.button_text_color || defaultConfig.button_text_color,
-            set: (value) => {
-              config.button_text_color = value;
-              window.elementSdk.setConfig({ button_text_color: value });
-            }
+      // Extract phonetically relevant syllables
+      extractSyllables(word) {
+        word = word.toLowerCase().trim();
+        const syllables = [];
+        let current = '';
+        
+        for (let i = 0; i < word.length; i++) {
+          const char = word[i];
+          const isVowel = this.vowels.includes(char);
+          const nextIsVowel = i + 1 < word.length && this.vowels.includes(word[i + 1]);
+          
+          current += char;
+          
+          // Break on vowel+consonant or end of word
+          if (isVowel && !nextIsVowel) {
+            syllables.push(current);
+            current = '';
           }
-        ],
-        borderables: [],
-        fontEditable: undefined,
-        fontSizeable: undefined
-      };
-    }
-
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ["page_title", config.page_title || defaultConfig.page_title],
-        ["button_text", config.button_text || defaultConfig.button_text],
-        ["worker_url_label", config.worker_url_label || defaultConfig.worker_url_label],
-        ["instruction_file", config.instruction_file || defaultConfig.instruction_file],
-        ["api_key", config.api_key || defaultConfig.api_key]
-      ]);
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
-      });
-    }
-
-    const workerUrlInput = document.getElementById('worker-url');
-    const word1Input = document.getElementById('word1');
-    const word2Input = document.getElementById('word2');
-    const word3Input = document.getElementById('word3');
-    const word4Input = document.getElementById('word4');
-    const word5Input = document.getElementById('word5');
-    const generateBtn = document.getElementById('generate-btn');
-    const resultsContent = document.getElementById('results-content');
-
-    async function loadInstructions() {
-      const instructionFileInput = document.getElementById('instruction-file');
-      const instructionPath = instructionFileInput.value || defaultConfig.instruction_file;
-      
-      try {
-        const response = await fetch(instructionPath);
-        if (!response.ok) {
-          console.warn('Instructions file not found, using default prompt');
-          return null;
         }
-        return await response.text();
-      } catch (error) {
-        console.warn('Could not load instructions:', error);
-        return null;
+        
+        if (current) syllables.push(current);
+        return syllables;
+      }
+
+      // Blend two words phonetically
+      blend(word1, word2) {
+        const syl1 = this.extractSyllables(word1);
+        const syl2 = this.extractSyllables(word2);
+        
+        const result1 = syl1.slice(0, Math.ceil(syl1.length / 2)).join('');
+        const result2 = syl2.slice(Math.floor(syl2.length / 2)).join('');
+        
+        return result1 + result2;
+      }
+
+      // Generate multiple blends with variations
+      generateBlends(words) {
+        const blends = new Set();
+        
+        // Pairwise blends
+        for (let i = 0; i < words.length; i++) {
+          for (let j = i + 1; j < words.length; j++) {
+            blends.add(this.blend(words[i], words[j]));
+            blends.add(this.blend(words[j], words[i]));
+          }
+        }
+        
+        // Forward blends (chaining)
+        if (words.length >= 2) {
+          let chain = words[0];
+          for (let i = 1; i < words.length; i++) {
+            chain = this.blend(chain, words[i]);
+          }
+          blends.add(chain);
+        }
+        
+        return Array.from(blends)
+          .map(b => b.charAt(0).toUpperCase() + b.slice(1))
+          .filter(b => b.length >= 3 && b.length <= 20);
       }
     }
 
-    generateBtn.addEventListener('click', async () => {
-      const workerUrl = workerUrlInput.value.trim();
-      const words = [
-        word1Input.value.trim(),
-        word2Input.value.trim(),
-        word3Input.value.trim(),
-        word4Input.value.trim(),
-        word5Input.value.trim()
-      ].filter(word => word !== '');
+    const generator = new PortmanteauGenerator();
+    let lastWords = [];
+
+    async function generateNames(words) {
+      const workerUrl = document.getElementById('worker-url').value.trim();
+      const resultsContent = document.getElementById('results-content');
+      const generateBtn = document.getElementById('generate-btn');
+      const regenerateBtn = document.getElementById('regenerate-btn');
       
-      if (!workerUrl) {
-        resultsContent.innerHTML = '<span class="error">Error: Please enter a Worker URL</span>';
-        return;
-      }
-      
-      if (words.length === 0) {
-        resultsContent.innerHTML = '<span class="error">Error: Please enter at least one word</span>';
+      if (words.length < 2) {
+        resultsContent.innerHTML = '<span class="error">Error: Please enter at least 2 words</span>';
         return;
       }
 
       generateBtn.disabled = true;
-      resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div> Generating LLC names...</div>';
+      resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div> Generating names...</div>';
       
       try {
-        // Load instructions from .md file
-        const instructions = await loadInstructions();
+        // First, get local portmanteau blends
+        const localBlends = generator.generateBlends(words);
+        lastWords = words;
         
-        // Build the prompt
-        let prompt = '';
-        if (instructions) {
-          prompt = `${instructions}\n\nWords to create portmanteau from: ${words.join(', ')}`;
-        } else {
-          // Default prompt if no instruction file is loaded
-          prompt = `Create creative portmanteau business names for an LLC using these words: ${words.join(', ')}. Generate 5-10 unique, memorable LLC name suggestions that blend these words together. Make them sound professional and suitable for a business.`;
+        if (!workerUrl) {
+          displayNames(localBlends, null);
+          regenerateBtn.style.display = 'flex';
+          generateBtn.disabled = false;
+          return;
         }
-        
+
+        // Then enhance with LLM
         const apiKeyInput = document.getElementById('api-key');
         const apiKey = apiKeyInput.value || '';
         
+        const prompt = `Create 8-12 creative LLC business names by blending these words: ${words.join(', ')}. 
+Requirements:
+- Names should sound professional and memorable
+- Mix phonetically pleasing portmanteaus with creative alternatives
+- Each name should be 3-20 characters
+- Focus on names that could work for a tech/software company
+- Include brief descriptions (1-2 words each)
+
+Format as JSON:
+{"names": [{"name": "NameHere", "reason": "why it works"}]}`;
+
         const headers = {
           'Content-Type': 'application/json'
         };
         
         if (apiKey) {
           headers['Authorization'] = `Bearer ${apiKey}`;
-        }
-        
-        // Build completions payload
-        const model = '@hf/nousresearch/hermes-2-pro-mistral-7b';
-        const payload = {
-          model,
-          prompt,
-          max_tokens: 128,
-          temperature: 0.7
-        };
-
-        // Add x-auth-key alongside Authorization for worker compatibility
-        if (apiKey && !headers['x-auth-key']) {
           headers['x-auth-key'] = apiKey;
         }
+
+        const payload = {
+          model: '@hf/nousresearch/hermes-2-pro-mistral-7b',
+          prompt,
+          max_tokens: 512,
+          temperature: 0.8
+        };
 
         const response = await fetch(`${workerUrl}/v1/completions`, {
           method: 'POST',
@@ -482,41 +475,87 @@
         });
         
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          displayNames(localBlends, null);
+          regenerateBtn.style.display = 'flex';
+          generateBtn.disabled = false;
+          return;
         }
         
-        const data = await response.json().catch(async () => ({ raw: await response.text() }));
-
-        // Display the response - prefer completions text; fallback to chat-style
-        if (data.choices && data.choices[0]) {
-          const choice = data.choices[0];
-          if (typeof choice.text === 'string' && choice.text.trim()) {
-            resultsContent.textContent = choice.text;
-          } else if (choice.message && choice.message.content) {
-            resultsContent.textContent = choice.message.content;
-          } else {
-            resultsContent.textContent = JSON.stringify(choice, null, 2);
+        const data = await response.json().catch(() => ({ choices: [{ text: '{}' }] }));
+        
+        let llmNames = [];
+        let responseText = data.choices?.[0]?.text || '';
+        
+        try {
+          const jsonMatch = responseText.match(/\{[\s\S]*"names"[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            llmNames = parsed.names || [];
           }
-        } else if (typeof data === 'string') {
-          resultsContent.textContent = data;
-        } else if (data.response) {
-          resultsContent.textContent = data.response;
-        } else {
-          resultsContent.textContent = JSON.stringify(data, null, 2);
+        } catch (e) {
+          console.warn('Could not parse LLM response as JSON');
         }
+        
+        displayNames(localBlends, llmNames);
+        regenerateBtn.style.display = 'flex';
       } catch (error) {
         resultsContent.innerHTML = `<span class="error">Error: ${error.message}</span>`;
       } finally {
         generateBtn.disabled = false;
       }
+    }
+
+    function displayNames(localNames, llmNames) {
+      const resultsContent = document.getElementById('results-content');
+      let html = '';
+      
+      if (localNames && localNames.length > 0) {
+        html += '<h3 style="color: #c4b5fd; margin-bottom: 16px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Portmanteau Blends</h3>';
+        localNames.slice(0, 6).forEach(name => {
+          html += `<div class="name-item">
+            <div class="name-item-title">${name}</div>
+            <div class="name-item-desc">Local blend</div>
+          </div>`;
+        });
+      }
+      
+      if (llmNames && llmNames.length > 0) {
+        html += '<h3 style="color: #c4b5fd; margin: 24px 0 16px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">AI Suggestions</h3>';
+        llmNames.slice(0, 8).forEach(item => {
+          const name = item.name || item;
+          const reason = item.reason || '';
+          html += `<div class="name-item">
+            <div class="name-item-title">${name}</div>
+            <div class="name-item-desc">${reason}</div>
+          </div>`;
+        });
+      }
+      
+      resultsContent.innerHTML = html || '<span class="waiting">No names generated</span>';
+    }
+
+    // Event listeners
+    document.getElementById('generate-btn').addEventListener('click', () => {
+      const words = [
+        document.getElementById('word1').value.trim(),
+        document.getElementById('word2').value.trim(),
+        document.getElementById('word3').value.trim(),
+        document.getElementById('word4').value.trim(),
+        document.getElementById('word5').value.trim(),
+      ].filter(w => w !== '');
+      
+      generateNames(words);
     });
 
-    // Allow Enter key on any input to trigger generation
-    const allInputs = [workerUrlInput, word1Input, word2Input, word3Input, word4Input, word5Input];
-    allInputs.forEach(input => {
-      input.addEventListener('keypress', (e) => {
+    document.getElementById('regenerate-btn').addEventListener('click', () => {
+      generateNames(lastWords);
+    });
+
+    // Enter key support
+    ['word1', 'word2', 'word3', 'word4', 'word5'].forEach(id => {
+      document.getElementById(id).addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-          generateBtn.click();
+          document.getElementById('generate-btn').click();
         }
       });
     });
