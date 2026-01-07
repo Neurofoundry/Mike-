@@ -445,7 +445,7 @@
      </div>
      <div class="llm-panel">
       <h3>Christophers Response:</h3>
-      <div id="llm-output"><span class="waiting">Waiting to call the worker...</span></div>
+      <div id="llm-output"><span class="waiting" id="rotating-message">Waiting to call the worker...</span></div>
      </div>
     </div>
     <div class="results">
@@ -456,6 +456,41 @@
    </div>
   </div>
   <script>
+  // Rotating funny messages for Christopher
+  const funnyMessages = [
+    "I know what you're thinking... I gave up my 9th birthday for this?",
+    "Well... at least we know which one of us got the brains",
+    "You better not be on the toilet right now",
+    "Don't forget to call your mother sometime... as relief for me",
+    "I love you dude"
+  ];
+  
+  let messageIndex = 0;
+  let messageInterval = null;
+  
+  function startRotatingMessages() {
+    const messageEl = document.getElementById('rotating-message');
+    if (!messageEl) return;
+    
+    messageInterval = setInterval(() => {
+      messageIndex = (messageIndex + 1) % funnyMessages.length;
+      messageEl.textContent = funnyMessages[messageIndex];
+    }, 4500); // Change every 4.5 seconds
+  }
+  
+  function stopRotatingMessages() {
+    if (messageInterval) {
+      clearInterval(messageInterval);
+      messageInterval = null;
+      messageIndex = 0;
+    }
+  }
+  
+  // Auto-start on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    startRotatingMessages();
+  });
+
   const defaultConfig = {
     page_title: "N A M E G E N",
     button_text: "Generate",
@@ -1225,6 +1260,7 @@ Analyze what makes strong brand names from these concepts. Consider:
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0324c7002daed',t:'MTc2Nzc1NDczOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
